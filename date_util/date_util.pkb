@@ -22,5 +22,37 @@ create or replace package body date_util as
 
   end get_previous_business_day;
 
+  ---------------------------------------------------
+  -- Add a specific amount of time to a given date --
+  ---------------------------------------------------
+  function add_time (
+    p_date    date,
+    p_days    number default null,
+    p_hours   number default null,
+    p_minutes number default null,
+    p_seconds number default null
+  ) return date as
+    v_date date := p_date;
+  begin
+
+    if p_days is not null then
+      v_date := v_date + numtodsinterval(p_days, 'day');
+    end if;
+
+    if p_hours is not null then
+      v_date := v_date + numtodsinterval(p_hours, 'hour');
+    end if;
+
+    if p_minutes is not null then
+      v_date := v_date + numtodsinterval(p_minutes, 'minute');
+    end if;
+
+    if p_seconds is not null then
+      v_date := v_date + numtodsinterval(p_seconds, 'second');
+    end if;
+
+    return v_date;
+  end add_time;
+
 end date_util;
 /
